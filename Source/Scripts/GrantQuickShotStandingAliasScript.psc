@@ -10,13 +10,13 @@ Event OnInit()
 	; Increases bow draw speed
 	If (!PlayerRef.HasPerk(QuickShotStandingPerk))
 		PlayerRef.AddPerk(QuickShotStandingPerk)
-		Debug.Notification("Quick Shot Standing perk added")
+		Debug.Trace("QuickShotStanding: Main perk added")
 	EndIf
 
 	; Changes game settings depending on player sneak state
 	If (!PlayerRef.HasPerk(QuickShotStandingDetectPerk))
 		PlayerRef.AddPerk(QuickShotStandingDetectPerk)
-		Debug.Notification("Quick Shot Standing sneak detection perk added")
+		Debug.Trace("QuickShotStanding: Sneak detection perk added")
 	EndIf
 
 	; Using similar fix as Archery Quick Shot Perk Bug Fix by Dutchj
@@ -26,8 +26,7 @@ Event OnInit()
 	Game.SetGameSettingFloat("fArrowBowMinTime", 0.4000)
 	Game.SetGameSettingFloat("fBowHoldTimer", 0.4000)
 	Game.SetGameSettingFloat("fBowDrawTime", 1.2667)
-
-	Debug.Notification("Quick Shot Standing perk ready")
+	Debug.Trace("QuickShotStanding: Ready")
 EndEvent
 
 Event OnPlayerLoadGame()
