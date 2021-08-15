@@ -1,7 +1,10 @@
 Scriptname GrantQuickShotStandingScript extends Quest  
 
-SPELL Property SpellRef  Auto  
+Actor Property PlayerRef Auto
+Perk Property QuickShotStandingPerk  Auto  
 
 Event OnInit()
-	Game.GetPlayer().AddSpell(SpellRef)
+	If (!PlayerRef.HasPerk(QuickShotStandingPerk))
+		PlayerRef.AddPerk(QuickShotStandingPerk)
+	EndIf
 EndEvent
