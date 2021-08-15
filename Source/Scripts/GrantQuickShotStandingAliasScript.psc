@@ -2,38 +2,34 @@ Scriptname GrantQuickShotStandingAliasScript extends ReferenceAlias
 
 Actor Property PlayerRef Auto
 Perk Property QuickShotStandingPerk  Auto  
+Perk Property QuickShotStandingDetectPerk  Auto  
 
 Event OnInit()
 	Utility.Wait(3)
 	
+	; Increases bow draw speed
 	If (!PlayerRef.HasPerk(QuickShotStandingPerk))
 		PlayerRef.AddPerk(QuickShotStandingPerk)
 		Debug.Notification("Quick Shot Standing perk added")
 	EndIf
 
-	RegisterForAnimationEvent(PlayerRef, "tailSneakIdle")
-	RegisterForAnimationEvent(PlayerRef, "tailCombatIdle")
-	RegisterForAnimationEvent(PlayerRef, "tailMTIdle")
-	RegisterForAnimationEvent(PlayerRef, "tailSneakLocomotion")
-	RegisterForAnimationEvent(PlayerRef, "tailCombatLocomotion")
-	RegisterForAnimationEvent(PlayerRef, "tailMTLocomotion")
+	; Changes game settings depending on player sneak state
+	If (!PlayerRef.HasPerk(QuickShotStandingDetectPerk))
+		PlayerRef.AddPerk(QuickShotStandingDetectPerk)
+		Debug.Notification("Quick Shot Standing sneak detection perk added")
+	EndIf
+
+	; Using similar fix as Archery Quick Shot Perk Bug Fix by Dutchj
+	; https://www.nexusmods.com/skyrimspecialedition/mods/40286
+	; Sneaking without vanilla Quick Shot is default anim speed
+	; Otherwise use faster anim speed, ignoring the 0.07 draw difference when player has both Quick Shot perks
+	Game.SetGameSettingFloat("fArrowBowMinTime", 0.4000)
+	Game.SetGameSettingFloat("fBowHoldTimer", 0.4000)
+	Game.SetGameSettingFloat("fBowDrawTime", 1.2667)
+
 	Debug.Notification("Quick Shot Standing perk ready")
 EndEvent
 
 Event OnPlayerLoadGame()
 	OnInit()
 EndEvent
-
-; Using same fix as Archery Quick Shot Perk Bug Fix by Dutchj
-; https://www.nexusmods.com/skyrimspecialedition/mods/40286
-Event OnAnimationEvent(ObjectReference akSource, string asEventName)
-	If (PlayerRef.IsSneaking())
-		Game.SetGameSettingFloat("fArrowBowMinTime", 0.8000)
-		Game.SetGameSettingFloat("fBowHoldTimer", 0.8000)
-		Game.SetGameSettingFloat("fBowDrawTime", 1.6667)
-	Else
-		Game.SetGameSettingFloat("fArrowBowMinTime", 0.4000)
-		Game.SetGameSettingFloat("fBowHoldTimer", 0.4000)
-		Game.SetGameSettingFloat("fBowDrawTime", 1.2667)
-	EndIf
-endEvent
