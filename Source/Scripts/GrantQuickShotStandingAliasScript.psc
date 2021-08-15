@@ -8,6 +8,7 @@ Event OnInit()
 	
 	If (!PlayerRef.HasPerk(QuickShotStandingPerk))
 		PlayerRef.AddPerk(QuickShotStandingPerk)
+		Debug.Notification("Quick Shot Standing perk added")
 	EndIf
 
 	RegisterForAnimationEvent(PlayerRef, "tailSneakIdle")
@@ -16,6 +17,7 @@ Event OnInit()
 	RegisterForAnimationEvent(PlayerRef, "tailSneakLocomotion")
 	RegisterForAnimationEvent(PlayerRef, "tailCombatLocomotion")
 	RegisterForAnimationEvent(PlayerRef, "tailMTLocomotion")
+	Debug.Notification("Quick Shot Standing perk ready")
 EndEvent
 
 Event OnPlayerLoadGame()
